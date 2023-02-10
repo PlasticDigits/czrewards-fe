@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { parseEther } from 'ethers/lib/utils.js';
 import React, { useEffect, useState } from 'react';
@@ -9,11 +10,16 @@ import { bnToCompact } from '../../utils/bnToFixed';
 import BronzeUpgradeCard from '../cards/BronzeUpgradeCard';
 import ClaimRewardsCard from '../cards/ClaimRewardsCard';
 import NewMemberCard from '../cards/NewMemberCard';
+import ReferralCodeCard from '../cards/ReferralCodeCard';
 
 const cashbackContract = {
   address: ADDRESS_CASHBACK,
   abi: CashbackAbi,
 };
+
+const CardWrapper = ({ children }) => (
+  <Box css={{ padding: 10, maxWidth: 360, display: 'flex' }}>{children}</Box>
+);
 
 function AccountManager() {
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -76,35 +82,53 @@ function AccountManager() {
   ]);
 
   return (
-    <>
+    <Box css={{ minHeight: '100vh' }}>
       <p>2. Manage Your Account:</p>
       {
         //Loading check...
-        isMember && dataCashbackSignerInfo?.accoundId_?.gt(0) ? (
-          <Stack direction="row" justifyContent="center" spacing={2}>
+        isMember == dataCashbackSignerInfo?.accoundId_?.gt(0) ? (
+          <Stack
+            direction="row"
+            justifyContent="center"
+            spacing={0}
+            css={{ flexWrap: 'wrap' }}
+          >
             {!!isMember && (
-              <ClaimRewardsCard
-                level={dataCashbackSignerInfo?.level_}
-                pendingRewardsCompact={bnToCompact(pendingRewards, 18, 5)}
-                pendingCashbackCompact={bnToCompact(
-                  cashbackToProcess
-                    .mul(LEVEL_WEIGHTS[level])
-                    .div(LEVEL_WEIGHTS[0]),
-                  18,
-                  5
-                )}
-              />
+              <CardWrapper>
+                <ClaimRewardsCard
+                  level={dataCashbackSignerInfo?.level_}
+                  pendingRewardsCompact={bnToCompact(pendingRewards, 18, 5)}
+                  pendingCashbackCompact={bnToCompact(
+                    cashbackToProcess
+                      .mul(LEVEL_WEIGHTS[level])
+                      .div(LEVEL_WEIGHTS[0]),
+                    18,
+                    5
+                  )}
+                />
+              </CardWrapper>
             )}
-            {!isMember && !!address && <NewMemberCard />}
+            {!isMember && !!address && (
+              <CardWrapper>
+                <NewMemberCard />
+              </CardWrapper>
+            )}
             {!!isMember && dataCashbackSignerInfo?.level_ == 5 && (
-              <BronzeUpgradeCard />
+              <CardWrapper>
+                <BronzeUpgradeCard />
+              </CardWrapper>
+            )}
+            {!!isMember && dataCashbackSignerInfo?.level_ <= 5 && (
+              <CardWrapper>
+                <ReferralCodeCard code={code} />
+              </CardWrapper>
             )}
           </Stack>
         ) : (
           'loading...'
         )
       }
-    </>
+    </Box>
   );
 }
 

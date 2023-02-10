@@ -48,7 +48,7 @@ const BronzeUpgradeCard = () => {
 
   return (
     <>
-      <Card variant="outlined" css={{ maxWidth: 360 }}>
+      <Card variant="outlined">
         <CardHeader
           title="Upgrade & Earn Referrals"
           css={{ paddingBottom: 0 }}
@@ -57,8 +57,8 @@ const BronzeUpgradeCard = () => {
           <Typography variant="body2">
             Upgrade your account to bronze tier to begin earning referral
             rewards. You will get a unique referral code link you can share to
-            earn up to <b>2x</b> your referral's cashback claims.
-            Additionally, you will increase your cashback by <b>3x</b>.
+            earn up to <b>2x</b> your referral's cashback claims. Additionally,
+            you will increase your cashback by <b>3x</b>.
           </Typography>
           <TextField
             css={{ marginTop: 8 }}

@@ -47,7 +47,7 @@ const NewMemberCard = () => {
 
   return (
     <>
-      <Card variant="outlined" css={{ maxWidth: 360 }}>
+      <Card variant="outlined">
         <CardHeader title="Join Rewards Program" css={{ paddingBottom: 0 }} />
         <CardContent>
           <Typography variant="body2">

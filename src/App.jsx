@@ -8,6 +8,7 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { bsc } from 'wagmi/chains';
 import czrewardsLogo from './assets/czrewards-logo.png';
 import AccountManager from './components/cardmanagers/AccountManager';
+import BottomBar from './components/layouts/BottomBar';
 import BaseThemeProvider from './providers/BaseThemeProvider';
 
 //WAGMI + WALLETCONNECT
@@ -70,6 +71,7 @@ function App() {
               src={czrewardsLogo}
               css={{
                 maxWidth: 360,
+                width: '90vw',
                 display: 'block',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -84,6 +86,7 @@ function App() {
           <br />
           <hr />
           <AccountManager />
+          <BottomBar />
         </div>
       </WagmiConfig>
       <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />

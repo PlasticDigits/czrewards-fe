@@ -47,7 +47,7 @@ const ClaimRewardsCard = ({
   } = useContractWrite(configCashbackClaimRewards);
 
   return (
-    <Card variant="outlined" css={{ maxWidth: 360 }}>
+    <Card variant="outlined">
       <CardHeader title="Claim Earnings" css={{ paddingBottom: 0 }} />
       <CardContent>
         <Typography variant="body1">
