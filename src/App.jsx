@@ -49,17 +49,6 @@ function App() {
     });
   const writeCashbackUpgdadeTier = useContractWrite(configCashbackUpgdadeTier);
   const {
-    config: configCashbackUpgdadeTierAndSetCode,
-    error: errorCashbackUpgdadeTierAndSetCode,
-  } = usePrepareContractWrite({
-    address: ADDRESS_CASHBACK,
-    abi: CashbackAbi,
-    functionName: 'upgdadeTierAndSetCode',
-  });
-  const writeCashbackUpgdadeTierAndSetCode = useContractWrite(
-    configCashbackUpgdadeTierAndSetCode
-  );
-  const {
     config: configCashbackRecaptureAccounts,
     error: errorCashbackRecaptureAccounts,
   } = usePrepareContractWrite({

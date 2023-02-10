@@ -6,6 +6,7 @@ import CashbackAbi from '../../abi/Cashback.json';
 import { ADDRESS_CASHBACK, ADDRESS_ZERO } from '../../constants/addresses';
 import { LEVEL_WEIGHTS } from '../../constants/levelWeights';
 import { bnToCompact } from '../../utils/bnToFixed';
+import BronzeUpgradeCard from '../cards/BronzeUpgradeCard';
 import ClaimRewardsCard from '../cards/ClaimRewardsCard';
 import NewMemberCard from '../cards/NewMemberCard';
 
@@ -41,14 +42,10 @@ function AccountManager() {
   const [levelNodeIds, setLevelNodeIds] = useState([]);
 
   useEffect(() => {
-    if (!dataCashbackSignerInfo?.accoundId_ && !isErrorCashbackSignerInfo) {
+    if (!dataCashbackSignerInfo?.accoundId_ || !!isErrorCashbackSignerInfo) {
       return;
     }
-    console.log(dataCashbackSignerInfo?.accoundId_);
-    if (
-      !!isErrorCashbackSignerInfo ||
-      !dataCashbackSignerInfo?.accoundId_?.gt(0)
-    ) {
+    if (!dataCashbackSignerInfo?.accoundId_?.gt(0)) {
       setIsMember(false);
       setLevel(-1);
       setAccountId(0);
@@ -81,19 +78,32 @@ function AccountManager() {
   return (
     <>
       <p>2. Manage Your Account:</p>
-      <Stack direction="row" justifyContent="center" spacing={2}>
-        {!!isMember && (
-          <ClaimRewardsCard
-            pendingRewardsCompact={bnToCompact(pendingRewards, 18, 5)}
-            pendingCashbackCompact={bnToCompact(
-              cashbackToProcess.mul(LEVEL_WEIGHTS[level]).div(LEVEL_WEIGHTS[0]),
-              18,
-              5
+      {
+        //Loading check...
+        isMember && dataCashbackSignerInfo?.accoundId_?.gt(0) ? (
+          <Stack direction="row" justifyContent="center" spacing={2}>
+            {!!isMember && (
+              <ClaimRewardsCard
+                level={dataCashbackSignerInfo?.level_}
+                pendingRewardsCompact={bnToCompact(pendingRewards, 18, 5)}
+                pendingCashbackCompact={bnToCompact(
+                  cashbackToProcess
+                    .mul(LEVEL_WEIGHTS[level])
+                    .div(LEVEL_WEIGHTS[0]),
+                  18,
+                  5
+                )}
+              />
             )}
-          />
-        )}
-        {!isMember && !!address && <NewMemberCard />}
-      </Stack>
+            {!isMember && !!address && <NewMemberCard />}
+            {!!isMember && dataCashbackSignerInfo?.level_ == 5 && (
+              <BronzeUpgradeCard />
+            )}
+          </Stack>
+        ) : (
+          'loading...'
+        )
+      }
     </>
   );
 }

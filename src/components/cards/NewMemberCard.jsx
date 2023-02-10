@@ -45,8 +45,6 @@ const NewMemberCard = () => {
     write: writeCashbackBecomeMember,
   } = useContractWrite(configCashbackBecomeMember);
 
-  console.log(dataCashbackIsCodeRegistered);
-
   return (
     <>
       <Card variant="outlined" css={{ maxWidth: 360 }}>

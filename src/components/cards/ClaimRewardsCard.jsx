@@ -3,13 +3,16 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
+import Grid2 from '@mui/material/Unstable_Grid2';
 import React from 'react';
 import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi';
 import CashbackAbi from '../../abi/Cashback.json';
 import { ADDRESS_CASHBACK } from '../../constants/addresses';
+import { LEVEL_LABELS, LEVEL_WEIGHTS } from '../../constants/levelWeights';
 import TxStatus from '../elements/TxStatus';
 
 const ClaimRewardsCard = ({
+  level,
   pendingRewardsCompact,
   pendingCashbackCompact,
 }) => {
@@ -52,7 +55,8 @@ const ClaimRewardsCard = ({
         </Typography>
         <Typography variant="body2">
           Cashback is generated when you use CZUSD in CZODIAC dapps that charge
-          fees. Increasing your tier increases your cashback rate.
+          fees. You are <b>{LEVEL_LABELS[level]}</b> tier and earn at a{' '}
+          <b>{LEVEL_WEIGHTS[level] / 10}x</b> rate.
         </Typography>
         <Button
           variant="contained"
@@ -72,10 +76,28 @@ const ClaimRewardsCard = ({
           Rewards To Claim: <b>{pendingRewardsCompact} CZUSD</b>
         </Typography>
         <Typography variant="body2">
-          Rewards are generated when you or someone in your referral chain with
-          a lower tier than yours processes their cashback. Increases with your
-          tier.
+          Earn rewards when a lower tier member in your referral chain claims
+          cashback. Your direct referrals pay out at these rates:
         </Typography>
+        <Grid2 container columnSpacing={2} rowSpacing={0}>
+          {LEVEL_WEIGHTS.map(
+            (weight, index) =>
+              level < index && (
+                <React.Fragment key={index}>
+                  <Grid2 xs={6} css={{ textAlign: 'right' }}>
+                    <Typography variant="body2" css={{ fontWeight: 'bold' }}>
+                      {LEVEL_LABELS[index]}
+                    </Typography>
+                  </Grid2>
+                  <Grid2 xs={6} css={{ textAlign: 'left' }}>
+                    <Typography variant="body2" css={{ fontWeight: 'bold' }}>
+                      {(LEVEL_WEIGHTS[level] - weight) / 10}x
+                    </Typography>
+                  </Grid2>
+                </React.Fragment>
+              )
+          )}
+        </Grid2>
         <Button variant="contained" onClick={() => writeCashbackClaimRewards()}>
           Claim Rewards
         </Button>
