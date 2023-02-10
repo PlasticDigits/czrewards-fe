@@ -7,6 +7,7 @@ import { ADDRESS_CASHBACK, ADDRESS_ZERO } from '../../constants/addresses';
 import { LEVEL_WEIGHTS } from '../../constants/levelWeights';
 import { bnToCompact } from '../../utils/bnToFixed';
 import ClaimRewardsCard from '../cards/ClaimRewardsCard';
+import NewMemberCard from '../cards/NewMemberCard';
 
 const cashbackContract = {
   address: ADDRESS_CASHBACK,
@@ -91,6 +92,7 @@ function AccountManager() {
             )}
           />
         )}
+        {!isMember && !!address && <NewMemberCard />}
       </Stack>
     </>
   );
