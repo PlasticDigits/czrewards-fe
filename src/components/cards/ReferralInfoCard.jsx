@@ -60,6 +60,7 @@ const ReferralInfoCard = ({ totalReferrals, level }) => {
         .map((val, index) => index),
     ],
   });
+  console.log(dataCashbackReferredAccountsLevel);
   const {
     data: dataCashbackRecaptureAccounts,
     error: errorCashbackRecaptureAccounts,
@@ -102,10 +103,9 @@ const ReferralInfoCard = ({ totalReferrals, level }) => {
                       <Typography variant="body2">
                         {
                           dataCashbackReferredAccountsLevel?.pages
-                            .flat()
-                            .filter(
-                              (curr, i, arr) => curr?.[1]?.[0] == levelIndex
-                            ).length
+                            .flat()?.[0]?.[1]
+                            ?.filter((curr, i, arr) => curr == levelIndex)
+                            .length
                         }
                       </Typography>
                     </Grid2>
@@ -118,16 +118,16 @@ const ReferralInfoCard = ({ totalReferrals, level }) => {
             onClick={() => writeCashbackRecaptureAccounts()}
             disabled={
               dataCashbackReferredAccountsLevel?.pages
-                .flat()
-                .filter((curr, i, arr) => curr?.[2]?.[0]).length == 0 ||
+                .flat()?.[0]?.[2]
+                .filter((curr, i, arr) => !!curr).length.length == 0 ||
               level == 0
             }
           >
             Recapture{' '}
             {
               dataCashbackReferredAccountsLevel?.pages
-                .flat()
-                .filter((curr, i, arr) => curr?.[2]?.[0]).length
+                .flat()?.[0]?.[2]
+                .filter((curr, i, arr) => !!curr).length
             }{' '}
             Referrals
           </Button>
