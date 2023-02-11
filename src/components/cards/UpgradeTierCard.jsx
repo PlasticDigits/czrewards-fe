@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { parseEther } from 'ethers/lib/utils.js';
 import React from 'react';
-import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 import CashbackAbi from '../../abi/Cashback.json';
 import { ADDRESS_CASHBACK } from '../../constants/addresses';
 import {
@@ -18,8 +18,6 @@ import { bnToCompact } from '../../utils/bnToFixed';
 import TxStatus from '../elements/TxStatus';
 
 const UpgradeTierCard = ({ level, czusdBal }) => {
-  const { address, isConnecting, isDisconnected } = useAccount();
-
   const { config: configCashbackUpgradeTier } = usePrepareContractWrite({
     address: ADDRESS_CASHBACK,
     abi: CashbackAbi,
@@ -37,10 +35,7 @@ const UpgradeTierCard = ({ level, czusdBal }) => {
   return (
     <>
       <Card variant="outlined">
-        <CardHeader
-          title="Upgrade & Earn Referrals"
-          css={{ paddingBottom: 0 }}
-        />
+        <CardHeader title="Increase Earning Rates" css={{ paddingBottom: 0 }} />
         <CardContent>
           <Typography variant="body2">
             Upgrade your account from {LEVEL_LABELS[level]} to{' '}

@@ -16,6 +16,7 @@ import BronzeUpgradeCard from '../cards/BronzeUpgradeCard';
 import ClaimRewardsCard from '../cards/ClaimRewardsCard';
 import NewMemberCard from '../cards/NewMemberCard';
 import ReferralCodeCard from '../cards/ReferralCodeCard';
+import ReferralInfoCard from '../cards/ReferralInfoCard';
 import UpgradeTierCard from '../cards/UpgradeTierCard';
 
 const cashbackContract = {
@@ -145,7 +146,7 @@ function AccountManager() {
 
             {!!isMember &&
               dataCashbackSignerInfo?.level_ < 5 &&
-              dataCashbackSignerInfo?.level_ > 0 && (
+              dataCashbackSignerInfo?.level_ > 1 && (
                 <CardWrapper>
                   <UpgradeTierCard
                     level={dataCashbackSignerInfo?.level_}
@@ -153,6 +154,14 @@ function AccountManager() {
                   />
                 </CardWrapper>
               )}
+            {!!isMember && dataCashbackSignerInfo?.level_ < 5 && (
+              <CardWrapper>
+                <ReferralInfoCard
+                  totalReferrals={dataCashbackSignerInfo?.totalReferrals_?.toNumber()}
+                  level={dataCashbackSignerInfo?.level_}
+                />
+              </CardWrapper>
+            )}
           </Stack>
         ) : (
           'loading...'
