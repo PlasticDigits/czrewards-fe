@@ -4,13 +4,19 @@ import { parseEther } from 'ethers/lib/utils.js';
 import React, { useEffect, useState } from 'react';
 import { useAccount, useContractRead } from 'wagmi';
 import CashbackAbi from '../../abi/Cashback.json';
-import { ADDRESS_CASHBACK, ADDRESS_ZERO } from '../../constants/addresses';
+import IERC20Abi from '../../abi/IERC20.json';
+import {
+  ADDRESS_CASHBACK,
+  ADDRESS_CZUSD,
+  ADDRESS_ZERO,
+} from '../../constants/addresses';
 import { LEVEL_WEIGHTS } from '../../constants/levelWeights';
 import { bnToCompact } from '../../utils/bnToFixed';
 import BronzeUpgradeCard from '../cards/BronzeUpgradeCard';
 import ClaimRewardsCard from '../cards/ClaimRewardsCard';
 import NewMemberCard from '../cards/NewMemberCard';
 import ReferralCodeCard from '../cards/ReferralCodeCard';
+import UpgradeTierCard from '../cards/UpgradeTierCard';
 
 const cashbackContract = {
   address: ADDRESS_CASHBACK,
@@ -33,6 +39,19 @@ function AccountManager() {
     address: ADDRESS_CASHBACK,
     abi: CashbackAbi,
     functionName: 'getSignerInfo',
+    args: [address ?? ADDRESS_ZERO],
+    watch: true,
+  });
+
+  const {
+    data: dataCzusdBal,
+    isError: isErrorCzusdBal,
+    isLoading: isLoadingCzusdBal,
+    isSuccess: isSuccessCzusdBal,
+  } = useContractRead({
+    address: ADDRESS_CZUSD,
+    abi: IERC20Abi,
+    functionName: 'balanceOf',
     args: [address ?? ADDRESS_ZERO],
     watch: true,
   });
@@ -115,14 +134,25 @@ function AccountManager() {
             )}
             {!!isMember && dataCashbackSignerInfo?.level_ == 5 && (
               <CardWrapper>
-                <BronzeUpgradeCard />
+                <BronzeUpgradeCard czusdBal={dataCzusdBal} />
               </CardWrapper>
             )}
-            {!!isMember && dataCashbackSignerInfo?.level_ <= 5 && (
+            {!!isMember && dataCashbackSignerInfo?.level_ < 5 && (
               <CardWrapper>
                 <ReferralCodeCard code={code} />
               </CardWrapper>
             )}
+
+            {!!isMember &&
+              dataCashbackSignerInfo?.level_ < 5 &&
+              dataCashbackSignerInfo?.level_ > 0 && (
+                <CardWrapper>
+                  <UpgradeTierCard
+                    level={dataCashbackSignerInfo?.level_}
+                    czusdBal={dataCzusdBal}
+                  />
+                </CardWrapper>
+              )}
           </Stack>
         ) : (
           'loading...'

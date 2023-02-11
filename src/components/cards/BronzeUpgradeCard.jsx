@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { parseEther } from 'ethers/lib/utils.js';
 import React, { useState } from 'react';
 import {
   useContractRead,
@@ -12,9 +13,11 @@ import {
 } from 'wagmi';
 import CashbackAbi from '../../abi/Cashback.json';
 import { ADDRESS_CASHBACK } from '../../constants/addresses';
+import { LEVEL_COST_USD } from '../../constants/levelWeights';
+import { bnToCompact } from '../../utils/bnToFixed';
 import TxStatus from '../elements/TxStatus';
 
-const BronzeUpgradeCard = () => {
+const BronzeUpgradeCard = ({ czusdBal }) => {
   const [newCode, setNewCode] = useState('');
 
   const {
@@ -96,6 +99,22 @@ const BronzeUpgradeCard = () => {
               Code is invalid or already registered.
             </Typography>
           )}
+          <Typography>
+            <b>Fee:</b> {LEVEL_COST_USD[5]} CZUSD{' '}
+            <small>
+              (Your Bal:{' '}
+              <span
+                css={{
+                  color: parseEther(LEVEL_COST_USD[5].toString()).lte(czusdBal)
+                    ? 'green'
+                    : 'red',
+                }}
+              >
+                {bnToCompact(czusdBal, 18, 4)}
+              </span>
+              )
+            </small>
+          </Typography>
           <Button
             variant="contained"
             disabled={!!dataCashbackIsCodeRegistered || newCode?.length == 0}

@@ -20,7 +20,7 @@ export default function MenuLinkSocialIcon({
         ...css,
       }}
     >
-      <img src={src} alt={alt} width={width} height={height} priority />
+      <img src={src} alt={alt} width={width} height={height} />
     </a>
   );
 }

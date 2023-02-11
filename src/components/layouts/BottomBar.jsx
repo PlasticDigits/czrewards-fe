@@ -39,7 +39,6 @@ export default function BottomBar() {
                 alt="Czodiac.com"
                 width={180}
                 height={64}
-                priority
               />
             </a>
           </Grid2>

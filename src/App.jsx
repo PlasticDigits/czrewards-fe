@@ -35,20 +35,7 @@ const ethereumClient = new EthereumClient(wagmiClient, chains);
 
 function App() {
   /*
-  const { config: configCashbackSetCodeTo, error: errorCashbackSetCodeTo } =
-    usePrepareContractWrite({
-      address: ADDRESS_CASHBACK,
-      abi: CashbackAbi,
-      functionName: 'setCodeTo',
-    });
-  const writeCashbackSetCodeTo = useContractWrite(configCashbackSetCodeTo);
-  const { config: configCashbackUpgdadeTier, error: errorCashbackUpgdadeTier } =
-    usePrepareContractWrite({
-      address: ADDRESS_CASHBACK,
-      abi: CashbackAbi,
-      functionName: 'upgdadeTier',
-    });
-  const writeCashbackUpgdadeTier = useContractWrite(configCashbackUpgdadeTier);
+  
   const {
     config: configCashbackRecaptureAccounts,
     error: errorCashbackRecaptureAccounts,
