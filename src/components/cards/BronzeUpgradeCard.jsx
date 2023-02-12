@@ -100,12 +100,12 @@ const BronzeUpgradeCard = ({ czusdBal }) => {
             </Typography>
           )}
           <Typography>
-            <b>Fee:</b> {LEVEL_COST_USD[5]} CZUSD{' '}
+            <b>Fee:</b> {LEVEL_COST_USD[4]} CZUSD{' '}
             <small>
               (Your Bal:{' '}
               <span
                 css={{
-                  color: parseEther(LEVEL_COST_USD[5].toString()).lte(czusdBal)
+                  color: parseEther(LEVEL_COST_USD[4].toString()).lte(czusdBal)
                     ? 'green'
                     : 'red',
                 }}

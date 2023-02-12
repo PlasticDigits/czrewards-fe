@@ -60,7 +60,6 @@ const ReferralInfoCard = ({ totalReferrals, level }) => {
         .map((val, index) => index),
     ],
   });
-  console.log(dataCashbackReferredAccountsLevel);
   const {
     data: dataCashbackRecaptureAccounts,
     error: errorCashbackRecaptureAccounts,
