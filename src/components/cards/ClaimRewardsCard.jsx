@@ -8,7 +8,11 @@ import React from 'react';
 import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi';
 import CashbackAbi from '../../abi/Cashback.json';
 import { ADDRESS_CASHBACK } from '../../constants/addresses';
-import { LEVEL_LABELS, LEVEL_WEIGHTS } from '../../constants/levelWeights';
+import {
+  LEVEL_COST_USD,
+  LEVEL_LABELS,
+  LEVEL_WEIGHTS,
+} from '../../constants/levelWeights';
 import TxStatus from '../elements/TxStatus';
 
 const ClaimRewardsCard = ({
@@ -78,7 +82,7 @@ const ClaimRewardsCard = ({
         <Typography variant="body2">
           Earn rewards when a lower tier member in your referral chain claims
           cashback or upgrades their tier. Your direct referrals pay out at
-          these rates:
+          these rates when they upgrade their tier:
         </Typography>
         <Grid2 container columnSpacing={2} rowSpacing={0}>
           {LEVEL_WEIGHTS.map(
@@ -92,7 +96,13 @@ const ClaimRewardsCard = ({
                   </Grid2>
                   <Grid2 xs={6} css={{ textAlign: 'left' }}>
                     <Typography variant="body2" css={{ fontWeight: 'bold' }}>
-                      {(LEVEL_WEIGHTS[level] - weight) / 10}x
+                      $
+                      {(
+                        LEVEL_COST_USD[index - 1] *
+                        ((LEVEL_WEIGHTS[level] - weight) /
+                          (100 - LEVEL_WEIGHTS[index]))
+                      ).toFixed(2)}{' '}
+                      ({(LEVEL_WEIGHTS[level] - weight) / 10}x)
                     </Typography>
                   </Grid2>
                 </React.Fragment>
