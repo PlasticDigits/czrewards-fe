@@ -129,6 +129,12 @@ const BronzeUpgradeCard = ({ czusdBal }) => {
             txHash={dataCashbackUpgdadeTierAndSetCode?.hash}
             errMsg={errorCashbackUpgdadeTierAndSetCode?.message}
           />
+          <Typography>
+            Need CZUSD to upgrade?{' '}
+            <a href="https://cz.cash/#/swap?outputCurrency=0xE68b79e51bf826534Ff37AA9CeE71a3842ee9c70">
+              Buy CZUSD on CZ.Cash
+            </a>
+          </Typography>
         </CardContent>
       </Card>
     </>

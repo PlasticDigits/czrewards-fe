@@ -110,6 +110,12 @@ const UpgradeTierCard = ({ level, czusdBal }) => {
             txHash={dataCashbackUpgradeTier?.hash}
             errMsg={errorCashbackUpgradeTier?.message}
           />
+          <Typography>
+            Need CZUSD to upgrade? <br />
+            <a href="https://cz.cash/#/swap?outputCurrency=0xE68b79e51bf826534Ff37AA9CeE71a3842ee9c70">
+              Buy CZUSD on CZ.Cash
+            </a>
+          </Typography>
         </CardContent>
       </Card>
     </>
