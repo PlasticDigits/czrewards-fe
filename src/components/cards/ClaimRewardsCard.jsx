@@ -77,7 +77,8 @@ const ClaimRewardsCard = ({
         </Typography>
         <Typography variant="body2">
           Earn rewards when a lower tier member in your referral chain claims
-          cashback. Your direct referrals pay out at these rates:
+          cashback or upgrades their tier. Your direct referrals pay out at
+          these rates:
         </Typography>
         <Grid2 container columnSpacing={2} rowSpacing={0}>
           {LEVEL_WEIGHTS.map(
