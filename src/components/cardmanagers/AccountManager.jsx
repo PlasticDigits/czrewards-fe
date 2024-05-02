@@ -18,6 +18,18 @@ import NewMemberCard from '../cards/NewMemberCard';
 import ReferralCodeCard from '../cards/ReferralCodeCard';
 import ReferralInfoCard from '../cards/ReferralInfoCard';
 import UpgradeTierCard from '../cards/UpgradeTierCard';
+import { BigNumber } from 'ethers';
+
+const GETSIGNERINFO_ENUM = {
+  LEVEL: 0,
+  ACCOUNT_ID: 1,
+  LEVEL_NODE_IDS: 2,
+  REFERRER_ACCOUNT_ID: 3,
+  CODE: 4,
+  TOTAL_REFERRALS: 5,
+  PENDING_CZUSD_TO_DISTRIBUTE: 6,
+  PENDING_REWARDS: 7,
+};
 
 const cashbackContract = {
   address: ADDRESS_CASHBACK,
@@ -66,12 +78,14 @@ function AccountManager() {
   const [referrerAccountId, setReferrerAccountId] = useState(0);
   const [totalReferrals, setTotalReferrals] = useState(0);
   const [levelNodeIds, setLevelNodeIds] = useState([]);
-
   useEffect(() => {
-    if (!dataCashbackSignerInfo?.accoundId_ || !!isErrorCashbackSignerInfo) {
+    if (
+      !dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.ACCOUNT_ID] ||
+      !!isErrorCashbackSignerInfo
+    ) {
       return;
     }
-    if (!dataCashbackSignerInfo?.accoundId_?.gt(0)) {
+    if ((!dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.ACCOUNT_ID] ?? 0) > 0) {
       setIsMember(false);
       setLevel(-1);
       setAccountId(0);
@@ -83,30 +97,42 @@ function AccountManager() {
       setLevelNodeIds([]);
     } else {
       setIsMember(true);
-      setLevel(dataCashbackSignerInfo?.level_);
-      setAccountId(dataCashbackSignerInfo?.accoundId_);
-      setCashbackToProcess(dataCashbackSignerInfo?.pendingCzusdToDistribute_);
-      setPendingRewards(dataCashbackSignerInfo?.pendingRewards_);
-      setCode(dataCashbackSignerInfo?.code_);
-      setReferrerAccountId(dataCashbackSignerInfo?.referrerAccountId_);
-      setTotalReferrals(dataCashbackSignerInfo?.totalReferrals_);
-      setLevelNodeIds(dataCashbackSignerInfo?.levelNodeIds_);
+      setLevel(dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.LEVEL]);
+      setAccountId(dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.ACCOUNT_ID]);
+      setCashbackToProcess(
+        dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.PENDING_CZUSD_TO_DISTRIBUTE]
+      );
+      setPendingRewards(
+        dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.PENDING_REWARDS]
+      );
+      setCode(dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.CODE]);
+      setReferrerAccountId(
+        dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.REFERRER_ACCOUNT_ID]
+      );
+      setTotalReferrals(
+        dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.TOTAL_REFERRALS]
+      );
+      setLevelNodeIds(
+        dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.LEVEL_NODE_IDS]
+      );
     }
   }, [
     !!isErrorCashbackSignerInfo,
-    dataCashbackSignerInfo?.accoundId_?.gt(0)?.toString(),
-    dataCashbackSignerInfo?.pendingRewards_?.toString(),
-    dataCashbackSignerInfo?.totalReferrals_?.toString(),
-    dataCashbackSignerInfo?.pendingCzusdToDistribute_?.toString(),
-    dataCashbackSignerInfo?.code_?.toString(),
+    dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.ACCOUNT_ID]?.toString(),
+    dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.PENDING_REWARDS]?.toString(),
+    dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.TOTAL_REFERRALS]?.toString(),
+    dataCashbackSignerInfo?.[
+      GETSIGNERINFO_ENUM.PENDING_CZUSD_TO_DISTRIBUTE
+    ]?.toString(),
+    dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.CODE]?.toString(),
   ]);
-
   return (
     <Box css={{ minHeight: '100vh' }}>
       <p>2. Manage Your Account:</p>
       {
         //Loading check...
-        isMember == dataCashbackSignerInfo?.accoundId_?.gt(0) ? (
+        isMember ==
+        (dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.ACCOUNT_ID] ?? 0) > 0 ? (
           <Stack
             direction="row"
             justifyContent="center"
@@ -116,12 +142,11 @@ function AccountManager() {
             {!!isMember && (
               <CardWrapper>
                 <ClaimRewardsCard
-                  level={dataCashbackSignerInfo?.level_}
+                  level={dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.LEVEL]}
                   pendingRewardsCompact={bnToCompact(pendingRewards, 18, 5)}
                   pendingCashbackCompact={bnToCompact(
-                    cashbackToProcess
-                      .mul(LEVEL_WEIGHTS[level])
-                      .div(LEVEL_WEIGHTS[0]),
+                    (cashbackToProcess * LEVEL_WEIGHTS[level]) /
+                      LEVEL_WEIGHTS[0],
                     18,
                     5
                   )}
@@ -133,35 +158,46 @@ function AccountManager() {
                 <NewMemberCard />
               </CardWrapper>
             )}
-            {!!isMember && dataCashbackSignerInfo?.level_ == 5 && (
-              <CardWrapper>
-                <BronzeUpgradeCard czusdBal={dataCzusdBal} />
-              </CardWrapper>
-            )}
-            {!!isMember && dataCashbackSignerInfo?.level_ < 5 && (
-              <CardWrapper>
-                <ReferralCodeCard code={code} />
-              </CardWrapper>
-            )}
+            {!!isMember &&
+              dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.LEVEL] == 5 && (
+                <CardWrapper>
+                  <BronzeUpgradeCard czusdBal={BigNumber.from(dataCzusdBal)} />
+                </CardWrapper>
+              )}
+            {!!isMember &&
+              dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.LEVEL] < 5 && (
+                <CardWrapper>
+                  <ReferralCodeCard code={code} />
+                </CardWrapper>
+              )}
 
             {!!isMember &&
-              dataCashbackSignerInfo?.level_ < 5 &&
-              dataCashbackSignerInfo?.level_ > 1 && (
+              dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.LEVEL] < 5 &&
+              dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.LEVEL] > 1 && (
                 <CardWrapper>
                   <UpgradeTierCard
-                    level={dataCashbackSignerInfo?.level_}
-                    czusdBal={dataCzusdBal}
+                    level={Number(
+                      dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.LEVEL]
+                    )}
+                    czusdBal={BigNumber.from(dataCzusdBal)}
                   />
                 </CardWrapper>
               )}
-            {!!isMember && dataCashbackSignerInfo?.level_ < 5 && (
-              <CardWrapper>
-                <ReferralInfoCard
-                  totalReferrals={dataCashbackSignerInfo?.totalReferrals_?.toNumber()}
-                  level={dataCashbackSignerInfo?.level_}
-                />
-              </CardWrapper>
-            )}
+            {!!isMember &&
+              dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.LEVEL] < 5 && (
+                <CardWrapper>
+                  <ReferralInfoCard
+                    totalReferrals={BigNumber.from(
+                      dataCashbackSignerInfo?.[
+                        GETSIGNERINFO_ENUM.TOTAL_REFERRALS
+                      ]
+                    )}
+                    level={Number(
+                      dataCashbackSignerInfo?.[GETSIGNERINFO_ENUM.LEVEL]
+                    )}
+                  />
+                </CardWrapper>
+              )}
           </Stack>
         ) : (
           'loading...'

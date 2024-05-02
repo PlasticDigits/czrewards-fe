@@ -14,6 +14,7 @@ import {
   LEVEL_WEIGHTS,
 } from '../../constants/levelWeights';
 import TxStatus from '../elements/TxStatus';
+import { BigNumber } from 'ethers';
 
 const ClaimRewardsCard = ({
   level,
@@ -60,7 +61,7 @@ const ClaimRewardsCard = ({
         <Typography variant="body2">
           Cashback is generated when you use CZUSD in CZODIAC dapps that charge
           fees. You are <b>{LEVEL_LABELS[level]}</b> tier and earn at a{' '}
-          <b>{LEVEL_WEIGHTS[level] / 10}x</b> rate.
+          <b>{LEVEL_WEIGHTS[level] / 10n}x</b> rate.
         </Typography>
         <Button
           variant="contained"
@@ -97,12 +98,15 @@ const ClaimRewardsCard = ({
                   <Grid2 xs={6} css={{ textAlign: 'left' }}>
                     <Typography variant="body2" css={{ fontWeight: 'bold' }}>
                       $
-                      {(
-                        LEVEL_COST_USD[index - 1] *
-                        ((LEVEL_WEIGHTS[level] - weight) /
-                          (100 - LEVEL_WEIGHTS[index]))
+                      {Number(
+                        BigInt.asIntN(
+                          32,
+                          LEVEL_COST_USD[index - 1] *
+                            ((LEVEL_WEIGHTS[level] - weight) /
+                              (100n - LEVEL_WEIGHTS[index]))
+                        )
                       ).toFixed(2)}{' '}
-                      ({(LEVEL_WEIGHTS[level] - weight) / 10}x)
+                      ({((LEVEL_WEIGHTS[level] - weight) / 10n).toString()}x)
                     </Typography>
                   </Grid2>
                 </React.Fragment>

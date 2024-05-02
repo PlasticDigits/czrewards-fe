@@ -25,8 +25,6 @@ export default function BottomBar() {
           maxWidth={1440}
         >
           <Grid2
-            item
-            tem
             xs={12}
             sm={4}
             css={{
@@ -43,7 +41,6 @@ export default function BottomBar() {
             </a>
           </Grid2>
           <Grid2
-            item
             xs={12}
             sm={8}
             css={{
@@ -94,7 +91,7 @@ export default function BottomBar() {
               />
             </Stack>
           </Grid2>
-          <Grid2 item xs={12}>
+          <Grid2 xs={12}>
             <h3>IMPORTANT: Do not expect profits from other's efforts.</h3>
             <p css={{ fontSize: 14, fontWeight: 400 }}>
               Nothing on this site or on related channels should be considered a
@@ -111,7 +108,7 @@ export default function BottomBar() {
               profits.
             </p>
           </Grid2>
-          <Grid2 item xs={12}>
+          <Grid2 xs={12}>
             <h3>WARNING: You may incur a tax liability.</h3>
             <p css={{ fontSize: 14, fontWeight: 400 }}>
               Please consult your tax adviser before using REWARDS.CZ.CASH,
@@ -120,7 +117,7 @@ export default function BottomBar() {
               issues depending on your jurisdiction.
             </p>
           </Grid2>
-          <Grid2 item xs={12}>
+          <Grid2 xs={12}>
             <h3>WARNING: You are using experimental technology.</h3>
             <p css={{ fontSize: 14, fontWeight: 400 }}>
               All CZodiac products are experimental technology which may fail in
@@ -132,7 +129,7 @@ export default function BottomBar() {
               with any other innovative blockchain dapp.
             </p>
           </Grid2>
-          <Grid2 item xs={12}>
+          <Grid2 xs={12}>
             <h3>Legal Disclaimer</h3>
             <p css={{ fontSize: 14, fontWeight: 400 }}>
               All information provided by REWARDS.CZ.CASH and other CZodiac
@@ -151,7 +148,7 @@ export default function BottomBar() {
               damages.
             </p>
           </Grid2>
-          <Grid2 item xs={12}>
+          <Grid2 xs={12}>
             <h3>Contact</h3>
             <p css={{ fontSize: 14, fontWeight: 400 }}>team@czodiac.com</p>
             <ButtonPrimary
@@ -169,7 +166,7 @@ export default function BottomBar() {
               Whitepaper
             </ButtonPrimary>
           </Grid2>
-          <Grid2 item xs={12}>
+          <Grid2 xs={12}>
             <p css={{ color: '#B0AAAA', fontSize: 14, fontWeight: 400 }}>
               © 2023 CZodiac. All rights reserved
             </p>

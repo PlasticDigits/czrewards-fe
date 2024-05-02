@@ -31,7 +31,6 @@ const UpgradeTierCard = ({ level, czusdBal }) => {
     isError: isErrorCashbackUpgradeTier,
     write: writeCashbackUpgradeTier,
   } = useContractWrite(configCashbackUpgradeTier);
-
   return (
     <>
       <Card variant="outlined">
@@ -53,8 +52,8 @@ const UpgradeTierCard = ({ level, czusdBal }) => {
             </Grid2>
             <Grid2 xs={6} css={{ textAlign: 'left' }}>
               <Typography variant="body2">
-                {LEVEL_WEIGHTS[level] / 10}x {' -> '}
-                {LEVEL_WEIGHTS[level - 1] / 10}x
+                {(LEVEL_WEIGHTS[level] / 10n).toString()}x {' -> '}
+                {(LEVEL_WEIGHTS[level - 1] / 10n).toString()}x
               </Typography>
             </Grid2>
             {LEVEL_WEIGHTS.map(
@@ -68,8 +67,10 @@ const UpgradeTierCard = ({ level, czusdBal }) => {
                     </Grid2>
                     <Grid2 xs={6} css={{ textAlign: 'left' }}>
                       <Typography variant="body2">
-                        {(LEVEL_WEIGHTS[level] - weight) / 10}x {' -> '}
-                        {(LEVEL_WEIGHTS[level - 1] - weight) / 10}x
+                        {((LEVEL_WEIGHTS[level] - weight) / 10n).toString()}x{' '}
+                        {' -> '}
+                        {((LEVEL_WEIGHTS[level - 1] - weight) / 10n).toString()}
+                        x
                       </Typography>
                     </Grid2>
                   </React.Fragment>
@@ -77,7 +78,7 @@ const UpgradeTierCard = ({ level, czusdBal }) => {
             )}
           </Grid2>
           <Typography>
-            <b>Fee:</b> {LEVEL_COST_USD[level - 1]} CZUSD{' '}
+            <b>Fee:</b> {LEVEL_COST_USD[level - 1].toString()} CZUSD{' '}
             <small>
               (Your Bal:{' '}
               <span

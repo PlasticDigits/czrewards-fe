@@ -48,14 +48,13 @@ const ReferralInfoCard = ({ totalReferrals, level }) => {
     getNextPageParam: (_, pages) =>
       (pages.length - 1) * 50 > totalReferrals ? undefined : pages.length + 1,
   });
-
   const { config: configCashbackRecaptureAccounts } = usePrepareContractWrite({
     address: ADDRESS_CASHBACK,
     abi: CashbackAbi,
     functionName: 'recaptureAccounts',
     args: [
       dataCashbackReferredAccountsLevel?.pages
-        .flat()
+        ?.flat()
         .filter((curr, i, arr) => curr?.[2]?.[0])
         .map((val, index) => index),
     ],
@@ -80,7 +79,7 @@ const ReferralInfoCard = ({ totalReferrals, level }) => {
             that you could not earn from before.
           </Typography>
           <Typography variant="body1">
-            Total Referrals: {totalReferrals}
+            Total Referrals: {totalReferrals.toString()}
           </Typography>
 
           <Grid2 container columnSpacing={2} rowSpacing={0}>
@@ -102,7 +101,7 @@ const ReferralInfoCard = ({ totalReferrals, level }) => {
                       <Typography variant="body2">
                         {
                           dataCashbackReferredAccountsLevel?.pages
-                            .flat()?.[0]?.[1]
+                            ?.flat()?.[0]?.[1]
                             ?.filter((curr, i, arr) => curr == levelIndex)
                             .length
                         }
@@ -117,16 +116,16 @@ const ReferralInfoCard = ({ totalReferrals, level }) => {
             onClick={() => writeCashbackRecaptureAccounts()}
             disabled={
               dataCashbackReferredAccountsLevel?.pages
-                .flat()?.[0]?.[2]
-                .filter((curr, i, arr) => !!curr).length.length == 0 ||
+                ?.flat()?.[0]?.[2]
+                ?.filter((curr, i, arr) => !!curr).length.length == 0 ||
               level == 0
             }
           >
             Recapture{' '}
             {
               dataCashbackReferredAccountsLevel?.pages
-                .flat()?.[0]?.[2]
-                .filter((curr, i, arr) => !!curr).length
+                ?.flat()?.[0]?.[2]
+                ?.filter((curr, i, arr) => !!curr).length
             }{' '}
             Referrals
           </Button>

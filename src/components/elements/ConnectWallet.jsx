@@ -3,13 +3,13 @@ import Tooltip from '@mui/material/Tooltip';
 import { useWeb3Modal, useWeb3ModalState } from '@web3modal/wagmi/react';
 import makeBlockie from 'ethereum-blockies-base64';
 import React from 'react';
-import { useAccount, useDisconnect } from 'wagmi';
+import { useAccount, useChainId, useDisconnect } from 'wagmi';
 import { bsc } from 'wagmi/chains';
 
 export default function ConnectWallet(sx) {
   const { open: web3ModalOpen } = useWeb3Modal();
-  const { address, chainId } = useAccount();
-  console.log(chainId);
+  const { address } = useAccount();
+  const { chainId } = useChainId();
   return !!address ? (
     <>
       <Tooltip title="Open Wallet Settings">
