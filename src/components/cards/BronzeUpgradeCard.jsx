@@ -100,7 +100,7 @@ const BronzeUpgradeCard = ({ czusdBal }) => {
             </Typography>
           )}
           <Typography>
-            <b>Fee:</b> {LEVEL_COST_USD[4]} CZUSD{' '}
+            <b>Fee:</b> {LEVEL_COST_USD[4].toString()} CZUSD{' '}
             <small>
               (Your Bal:{' '}
               <span
