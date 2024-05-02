@@ -16,3 +16,23 @@ body {
   background-color: #eee;
   color:#111;
 }
+
+.primary-btn {
+  background-color: #1a0ec9;
+  color:white;
+  font-size: 1.5em;
+  padding:0.25em 0.5em;
+  border-radius: 1em;
+  border:solid 2px #1f1d33;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.primary-btn:hover{
+  background-color: #635ae0;
+  color:#08053d;
+  border:solid 2px #908ae9;
+}
